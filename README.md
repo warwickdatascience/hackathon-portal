@@ -12,3 +12,15 @@ Upload portal for the WDSSxWSS Hackathon
 - / GET
 	- Get the leaderboard, which is either stored or calculated in the backend
 	- Pass to the frontend to display with a sidebar form to get the POST request
+
+## DB Design
+- `user`
+	- Used for JWT-related stuff
+	- Still need to change this from `admin`
+- `submission`
+	- USID
+	- User ID
+	- path/to/csv
+	- path/to/ipynb
+	- Upload date
+	- Score

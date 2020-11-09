@@ -19,8 +19,9 @@ def create_app():
     
     with app.app_context():
         # import parts of our application
-        from . import token
+        from . import token, submission
 
         app.register_blueprint(token.token_bp)
+        app.register_blueprint(submission.submission_bp)
 
         return app
