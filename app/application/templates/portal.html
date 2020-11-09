@@ -1,0 +1,115 @@
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="icon" href="{{ url_for('static', filename='logo-round.png') }}">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Submission Portal</title>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
+         <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+        
+	</head>
+	<body style="background-color:#ffffc">
+   <section  class="banner hero  p-3">
+		<div   class="header">
+			
+			<div class="level">
+				<div class="level-left">
+					<div class="level-item">
+						<h1 class="title is-1 is-size-3-mobile has-text-white"> <a class="has-text-white"> Helping Hack: Heart of England </a></h1>
+					</div>
+				</div>
+				<div class="level-right  is-hidden-mobile ">
+					<div class="level-item">
+						<a href="https://www.wdss.io"><img class="image is-64x64" src="{{ url_for('static', filename='logo-transparent-white.png') }}"0.9.1/css/bulma.min.css> </a>
+					</div>
+					<div class="level-item">
+						<a href="https://www.warwicksu.com/societies-sports/societies/Psychology/"><img width="100vh" class="image" src="{{ url_for('static', filename='cropped-WSS-White-Trans-1.png') }}"0.9.1/css/bulma.min.css> </a>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+	  <div class="columns is-fullheight">
+        <div class="column  is-9 ">
+            
+            <section class="section">
+            
+            <div class="container">        
+                <h1 class="title is-2"> Leaderboard </h1>
+                <p id="countdown"></p>
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th> Team </th>
+                            
+                            <th> Score </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> WDSS </td>
+                            <td> 100 </td>
+                        </tr>
+                        <tr>
+                            <td> WSS </td>
+                            <td> 100 </td>
+                        </tr>
+                        <tr>
+                            <td> HoE </td>
+                            <td> 100 </td>
+                        </tr>
+                        <tr>
+                            <td> Prof </td>
+                            <td> 100 </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+                   </section>
+        </div>
+        
+        <div style=" z-index:-1" class="column  is-3 ">
+            <div class="card">
+            <section class="section">
+            <div class="container ">    
+                    
+                <h1 class="title is-2"> Submit </h1>
+                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p> Submission conditions: </p>
+                <dl class="pl-6">
+                    <li> Blah blah blah </li>
+                    <li> Blah blah blah </li>
+                    <li> Blah blah blah </li>
+                </dl>
+                <br>
+                <form action="/action_page.php">
+                    <label> Answer (.csv) </label>
+                    <input type="file" id="myFile" name="filename">
+                    <br>
+                    <label> Jupyter Notebook </label>
+                    <input type="file" id="myFile" name="filename">
+                    <br><br>
+                    <div class="has-text-centered">
+                    <input style="background-color:#103c6b" class="button is-primary" value="Submit" type="submit">
+                    </div>
+                </form>
+            </div>
+            </section>
+            </div>
+        </div>
+      </div>
+      
+    
+
+
+	</body>
+</html>
+		
+
