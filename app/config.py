@@ -8,7 +8,7 @@ class Config:
     SECRET_KEY = os.getenv("SECRET_KEY")
 
     JWT_TOKEN_LOCATION = ["cookies"]
-    JWT_ACCESS_COOKIE_PATH = "/api/"
+    JWT_ACCESS_COOKIE_PATH = "/"
     JWT_REFRESH_COOKIE_PATH = "/token/refresh"
     JWT_COOKIE_CSRF_PROTECT = False
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")

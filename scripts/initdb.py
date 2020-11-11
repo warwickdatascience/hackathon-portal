@@ -40,8 +40,9 @@ mycursor.execute("SET FOREIGN_KEY_CHECKS = 0")
 mycursor.execute("DROP TABLE IF EXISTS admin")
 mycursor.execute("SET FOREIGN_KEY_CHECKS = 1")
 mycursor.execute(
-    "CREATE TABLE admin(admin_id INT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(30), password BLOB, salt BLOB)")
-
+    "CREATE TABLE user(user_id INT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(30), password BLOB, salt BLOB)")
+mycursor.execute(
+    "CREATE TABLE submission(submission_id INT PRIMARY KEY AUTO_INCREMENT, user_id")
 mycursor.execute("SHOW TABLES")
 
 for x in mycursor:
