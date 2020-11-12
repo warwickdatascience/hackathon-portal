@@ -13,4 +13,7 @@ class Config:
     JWT_COOKIE_CSRF_PROTECT = False
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 
+    UPLOAD_FOLDER = "uploads"
+    MAX_CONTENT_LENGTH = 1 * 1024 * 1024
+
     SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://root:{os.getenv('SQL_ROOT_PASSWORD')}@db:3306/hackathon_portal"
