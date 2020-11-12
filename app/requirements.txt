@@ -4,3 +4,5 @@ flask-jwt-extended
 pymysql
 python-dotenv
 Werkzeug
+numpy
+pandas

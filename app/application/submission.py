@@ -13,6 +13,15 @@ import os
 submission_bp = Blueprint("submission_bp", __name__)
 # root POST request for now
 
+def get_scores():
+    scores = db.session.query(Submission.team_id, func.max(Submission.score)).group_by(Submission.team_id).all()
+
+    # can't be asked to look up SQLAlchemy joins
+    scores_names = list()
+    for (teamid, score) in scores:
+        scores_names.append((Team.query.filter_by(team_id=teamid).first().teamname, score))
+
+    return sorted(scores_names, key=lambda x : x[1], reverse=True)
 
 @submission_bp.route("/", methods=["GET", "POST"])
 @jwt_optional
@@ -63,24 +72,32 @@ def index():
                 db.session.commit()
                 return redirect("/")
 
-            return "Bad file extensions used"
+            scores = get_scores()
+            submissions = db.session.query(Submission.score, Submission.tag).filter_by(team_id=team_id).all()
 
-        return "You already submitted less than an hour ago!"
+            return render_template("portal.html",
+                team_name=team_name,
+                scores=scores,submissions=submissions,sub_length=len(submissions),
+                year=d.year, month=d.month-1, day=d.day, hour=d.hour, minute=d.minute,
+                second=d.second,
+                submission_status="Submission Error: Bad file extensions used")
+
+
+        return render_template("portal.html",
+                team_name=team_name,
+                scores=scores,submissions=submissions,sub_length=len(submissions),
+                year=d.year, month=d.month-1, day=d.day, hour=d.hour, minute=d.minute,
+                second=d.second,
+                submission_status="Submission Error: You already submitted less than an hour ago!")
         
     # get the team ID and max score
-    scores = db.session.query(Submission.team_id, func.max(Submission.score)).group_by(Submission.team_id).all()
-
-    # can't be asked to look up SQLAlchemy joins
-    scores_names = list()
-    for (teamid, score) in scores:
-        scores_names.append((Team.query.filter_by(team_id=teamid).first().teamname, score))
-
-    scores_sorted = sorted(scores_names, key=lambda x : x[1])
+    scores = get_scores()
 
     submissions = db.session.query(Submission.score, Submission.tag).filter_by(team_id=team_id).all()
 
     return render_template("portal.html",
             team_name=team_name,
-            scores=scores_sorted,submissions=submissions,sub_length=len(submissions),
+            scores=scores,submissions=submissions,sub_length=len(submissions),
             year=d.year, month=d.month-1, day=d.day, hour=d.hour, minute=d.minute,
-            second=d.second)
+            second=d.second,
+            )

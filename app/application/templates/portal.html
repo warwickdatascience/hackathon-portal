@@ -139,11 +139,18 @@
                     </thead>
                     <tbody>
                     {% for (team, score) in scores %}
+                        {% if team_name == team %}
+                        <tr>
+                            <td> <strong> {{ team }} </strong> </td>
+                            <td> <strong> {{ score }} </strong> </td>
+                        </tr>
+                        {% else %}
                         <tr>
                             <td> {{ team }} </td>
                             <td> {{ score }} </td>
                         </tr>
-                        
+                        {% endif %}
+
                     {% endfor %}
                         <tr>
                             <td> WDSS </td>
@@ -194,9 +201,9 @@
                    </section>
         </div>
         
-        <div style=" z-index:1" class="column  is-3 ">
-            <div style="height:90vh" class="card">
-            <section class="section">
+        <div style=" z-index:1" class="column  is-3 " >
+            <div  class="card" >
+            <section class="section" >
             <div class="container ">    
                     
                 <h1 class="title is-2"> Submit </h1>
@@ -234,6 +241,9 @@
                     <input style="background-color:#103c6b" class="submit_result button is-primary" value="Submit" type="submit">
                     </div>
                 </form> 
+                {% if submission_status is defined %}
+                    {{ submission_status }}
+                {% endif %}
             </section>
             </div>
         </div>
