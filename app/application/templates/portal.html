@@ -20,7 +20,6 @@
 
 	const myDate = new Date({{ year }}, {{ month }}, {{ day }}, 
 			    {{ hour }}, {{ minute }}, {{ second }}, 0);
-	alert(myDate);
         myDate.setHours( myDate.getHours() + 1 );
         
 
@@ -68,7 +67,7 @@
             document.getElementById("submission_cooldown").innerHTML = "Submission Cooldown: " + hours + "h "
             + minutes + "m " + seconds + "s ";
 
-            //$('.submit_result').prop('disabled', true);
+            $('.submit_result').prop('disabled', true);
             // If the count down is finished, write some text
             if (distance < 0) {
                 clearInterval(x);
@@ -139,10 +138,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for score in scores %}
+                    {% for (team, score) in scores %}
                         <tr>
-                            <td> {{ score[0] }} </td>
-                            <td> {{ score[1] }} </td>
+                            <td> {{ team }} </td>
+                            <td> {{ score }} </td>
                         </tr>
                         
                     {% endfor %}
@@ -180,11 +179,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for submission in submissions %}
+                    {% for i in range(sub_length) %}
                         <tr>
-                            <td> {{ submission[0] }} </td>
-                            <td> {{ submission[1] }} </td>
-                            <td> {{ submission[2] }} </td>
+                            <td> {{ i }} </td>
+                            <td> {{ submissions[i][0] }} </td>
+                            <td> {{ submissions[i][1] }} </td>
                         </tr>
                         
                     {% endfor %}
