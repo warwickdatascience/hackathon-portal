@@ -18,7 +18,8 @@
     <script>
         $(document).ready(function(){
 
-        const myDate = new Date({{ for_js }});
+	const myDate = new Date({{ year }}, {{ month }}, {{ day }}, 
+			    {{ hour }}, {{ minute }}, {{ second }}, 0);
 	alert(myDate);
         myDate.setHours( myDate.getHours() + 1 );
         

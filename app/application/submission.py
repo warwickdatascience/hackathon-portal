@@ -65,9 +65,11 @@ def index():
         d = datetime.datetime.utcnow()
     else:
         d = potential_d.upload_time
-
+#    return f"{d.year} {d.month} {d.day} {d.hour} {d.minute} {d.second}"
 
     for_js = (d - datetime.datetime(1970,1,1,0,0,0)).total_seconds() * 1000
     return render_template("portal.html",
             team_name=team_name,
-            scores=scores,submissions=submissions,cooldown=for_js)
+            scores=scores,submissions=submissions,cooldown=for_js,
+            year=d.year, month=d.month, day=d.day, hour=d.hour, minute=d.minute,
+            second=d.second)
