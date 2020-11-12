@@ -20,7 +20,7 @@ Upload portal for the WDSSxWSS Hackathon
 - `submission`
 	- USID
 	- User ID
-	- path/to/csv
-	- path/to/ipynb
-	- Upload date
+	- Upload date/time
+	- Tag
 	- Score
+- CSV and IPYNB files to save just as the name of the primary key

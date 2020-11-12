@@ -52,14 +52,14 @@ mycursor.execute(
 mycursor.execute(
     "CREATE TABLE userteam(userteam_id INT PRIMARY KEY AUTO_INCREMENT, team_id INT, user_id INT, FOREIGN KEY(team_id) REFERENCES team(team_id), FOREIGN KEY(user_id) REFERENCES user(user_id))")
 mycursor.execute(
-    "CREATE TABLE submission(submission_id INT PRIMARY KEY AUTO_INCREMENT, team_id INT, user_id INT, score INT, tag VARCHAR(100), FOREIGN KEY(team_id) REFERENCES team(team_id), FOREIGN KEY(user_id) REFERENCES user(user_id))")
+    "CREATE TABLE submission(submission_id INT PRIMARY KEY AUTO_INCREMENT, upload_time DATETIME, team_id INT, user_id INT, score INT, tag VARCHAR(100), FOREIGN KEY(team_id) REFERENCES team(team_id), FOREIGN KEY(user_id) REFERENCES user(user_id))")
 mycursor.execute("SHOW TABLES")
 
 for x in mycursor:
     print(x)
 
 # USERS
-sql = "INSERT INTO admin (username, password, salt) VALUES (%s, %s, %s)"
+sql = "INSERT INTO user (username, password, salt) VALUES (%s, %s, %s)"
 password = "root"
 salt = os.urandom(32)
 print(salt)
@@ -70,6 +70,6 @@ key = hashlib.pbkdf2_hmac(
     100000  # It is recommended to use at least 100,000 iterations of SHA-256
 )
 # print(key.decode('utf-8'))
-val = ("admin", key, salt)
+val = ("test", key, salt)
 mycursor.execute(sql, val)
 mydb.commit()

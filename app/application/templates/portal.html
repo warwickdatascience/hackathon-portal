@@ -19,7 +19,7 @@
         $(document).ready(function(){
 
         const myDate = new Date({{ for_js }});
-        myDate.setHours( myDate.getHours() + 1 );
+        myDate.setHours( myDate.getHours() + 0 );
         
 
         var cdown = myDate.getTime();
@@ -219,12 +219,12 @@
                 </dl>
                 
             <hr>
-                <form action="/", method="POST">
+                <form action="/" method="post" enctype="multipart/form-data">
                     <label> Answer (.csv) </label>
-                    <input type="file" id="answers" name="answers">
+                    <input type="file" id="answers" name="cFile">
                     <br><br>
                     <label> Jupyter Notebook </label>
-                    <input type="file" id="notebook" name="notebook">
+                    <input type="file" id="notebook" name="jFile">
                     <br><br>
                     <label> Tag </label>
                     <input type="input" placeholder="Short Desc e.g. Linear Regression w/ SGD" class="input" name="tag">
@@ -232,8 +232,7 @@
                     <div class="has-text-centered">
                     <input style="background-color:#103c6b" class="submit_result button is-primary" value="Submit" type="submit">
                     </div>
-                </form>
-            
+                </form> 
             </section>
             </div>
         </div>
