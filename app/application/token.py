@@ -8,7 +8,7 @@ import hashlib
 # blueprint configuration
 token_bp = Blueprint("token_bp", __name__)
 
-@token_bp.route('/token/auth', methods=['GET', 'POST'])
+@token_bp.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
