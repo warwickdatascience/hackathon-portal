@@ -18,14 +18,14 @@ submission_bp = Blueprint("submission_bp", __name__)
 @jwt_optional
 def index():
     username = get_jwt_identity()
-    user_id = User.query.filter_by(username=username).first().user_id
-    team_id = UserTeam.query.filter_by(user_id=user_id).first().team_id
-    team_name = Team.query.filter_by(team_id=team_id).first().teamname
-
     # username is None if not logged in
     # redirect if this is the case
     if username is None:
         return redirect("/login")
+    user_id = User.query.filter_by(username=username).first().user_id
+    team_id = UserTeam.query.filter_by(user_id=user_id).first().team_id
+    team_name = Team.query.filter_by(team_id=team_id).first().teamname
+
 
     if request.method == "POST":
         csv_file = request.files["cFile"]
