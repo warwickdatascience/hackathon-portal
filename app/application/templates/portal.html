@@ -19,7 +19,8 @@
         $(document).ready(function(){
 
         const myDate = new Date({{ for_js }});
-        myDate.setHours( myDate.getHours() + 0 );
+	alert(myDate);
+        myDate.setHours( myDate.getHours() + 1 );
         
 
         var cdown = myDate.getTime();
@@ -98,7 +99,7 @@
 						<a href=""><img class="image is-64x64" src="{{ url_for('static', filename='HoE.png') }}"0.9.1/css/bulma.min.css> </a>
 					</div>
                     <div class="level-item">
-                        <p > <strong class="has-text-white">Team A</strong></p>
+			    <p > <strong class="has-text-white">{{ team_name }}</strong></p>
 					</div>
 				</div>
 			</div>

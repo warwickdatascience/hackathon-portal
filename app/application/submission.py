@@ -1,33 +1,13 @@
-<<<<<<< HEAD
-import random
-import datetime
-import time
-
-from flask import Blueprint, request, render_template, flash
-from flask import current_app as app
-from flask_jwt_extended import jwt_required
-from werkzeug.utils import secure_filename
-
-
-from .models import Submission, User, Team, UserTeam
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-def evaluate_score(user_score):
-    return random.randint(1, 100)
-
-=======
 from flask import Blueprint, request, render_template, redirect
 from flask import current_app as app
 from flask_jwt_extended import jwt_optional, get_jwt_identity
+from sqlalchemy import desc
 from werkzeug.utils import secure_filename
-from .models import Submission, User
+from .models import Submission, User, UserTeam, Team
+from .score import evaluate_score
 from . import db
 import datetime, time
 import os
->>>>>>> d850450cf035ab7e577604c4794ba76bd1f83a7e
 
 # blueprint configuration
 submission_bp = Blueprint("submission_bp", __name__)
@@ -39,6 +19,8 @@ submission_bp = Blueprint("submission_bp", __name__)
 def index():
     username = get_jwt_identity()
     user_id = User.query.filter_by(username=username).first().user_id
+    team_id = UserTeam.query.filter_by(user_id=user_id).first().team_id
+    team_name = Team.query.filter_by(team_id=team_id).first().teamname
 
     # username is None if not logged in
     # redirect if this is the case
@@ -57,7 +39,7 @@ def index():
 
             # save the files to the upload folder
             # get the id to give them
-            new_submission = Submission(user_id = user_id, upload_time=datetime.datetime.utcnow(), tag=request.form["tag"])
+            new_submission = Submission(team_id=team_id, user_id = user_id, upload_time=datetime.datetime.utcnow(), tag=request.form["tag"])
 
             db.session.add(new_submission)
             db.session.flush()
@@ -66,16 +48,26 @@ def index():
             jupyter_file.save(os.path.join(app.config["UPLOAD_FOLDER"], f"{new_submission.submission_id}.ipynb"))
 
             # call the score function
-            new_submission.score = score(app.config["UPLOAD_FOLDER"], f"{new_submission.submission_id}.csv")
+            new_submission.score = evaluate_score(os.path.join(app.config["UPLOAD_FOLDER"], f"{new_submission.submission_id}.csv"))
+
+            db.session.add(new_submission)
+            db.session.commit()
+            return redirect("/")
 
         return "Bad file extensions used"
         
     scores = [["team A", "50"], ["team B", "60"]]
     submissions = [["1", "50", "LSTM"], ["2", "60", "RNN"]]
-    d = datetime.datetime.utcnow()
-    for_js = int(time.mktime(d.timetuple())) * 1000
 
-    return render_template("portal.html", scores=scores,
-                           submissions=submissions,
+    potential_d = Submission.query.filter_by(team_id=team_id).order_by(desc(Submission.upload_time)).first()
 
-                           cooldown=for_js)
+    if potential_d is None:
+        d = datetime.datetime.utcnow()
+    else:
+        d = potential_d.upload_time
+
+
+    for_js = (d - datetime.datetime(1970,1,1,0,0,0)).total_seconds() * 1000
+    return render_template("portal.html",
+            team_name=team_name,
+            scores=scores,submissions=submissions,cooldown=for_js)

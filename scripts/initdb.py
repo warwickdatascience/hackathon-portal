@@ -72,4 +72,7 @@ key = hashlib.pbkdf2_hmac(
 # print(key.decode('utf-8'))
 val = ("test", key, salt)
 mycursor.execute(sql, val)
+
+mycursor.execute("INSERT INTO team (teamname) VALUES ('WDSS Testers')")
+mycursor.execute("INSERT INTO userteam (team_id, user_id) VALUES (1,1)")
 mydb.commit()
