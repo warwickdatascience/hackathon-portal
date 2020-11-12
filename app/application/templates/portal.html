@@ -39,7 +39,7 @@
             document.getElementById("submission_cooldown").innerHTML = "Submission Cooldown: " + hours + "h "
             + minutes + "m " + seconds + "s ";
 
-            $('.submit_result').prop('disabled', true);
+            //$('.submit_result').prop('disabled', true);
             // If the count down is finished, write some text
             if (distance < 0) {
                 clearInterval(x);
@@ -66,7 +66,7 @@
             document.getElementById("submission_cooldown").innerHTML = "Submission Cooldown: " + hours + "h "
             + minutes + "m " + seconds + "s ";
 
-            $('.submit_result').prop('disabled', true);
+            //$('.submit_result').prop('disabled', true);
             // If the count down is finished, write some text
             if (distance < 0) {
                 clearInterval(x);
@@ -219,15 +219,15 @@
                 </dl>
                 
             <hr>
-                <form action="/action_page.php">
+                <form action="/", method="POST">
                     <label> Answer (.csv) </label>
-                    <input type="file" id="answers" name="filename">
+                    <input type="file" id="answers" name="answers">
                     <br><br>
                     <label> Jupyter Notebook </label>
-                    <input type="file" id="notebook" name="filename">
+                    <input type="file" id="notebook" name="notebook">
                     <br><br>
                     <label> Tag </label>
-                    <input type="input" placeholder="Short Desc e.g. Linear Regression w/ SGD" class="input" name="filename">
+                    <input type="input" placeholder="Short Desc e.g. Linear Regression w/ SGD" class="input" name="tag">
                     <br><br>
                     <div class="has-text-centered">
                     <input style="background-color:#103c6b" class="submit_result button is-primary" value="Submit" type="submit">

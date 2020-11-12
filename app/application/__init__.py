@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 import pymysql
@@ -10,7 +10,12 @@ jwt = JWTManager()
 
 def create_app():
     # initalise application
+    UPLOAD_FOLDER = '/static/'
+    ALLOWED_EXTENSIONS = {'csv', 'ipynb'}
+
     app = Flask(__name__, instance_relative_config=False)
+    app.config['SECRET_KEY']  = 'sFsdaffgWE43124frey'
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config.from_object("config.Config")
 
     # initilise plugins
