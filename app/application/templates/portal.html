@@ -40,7 +40,7 @@
             document.getElementById("submission_cooldown").innerHTML = "Submission Cooldown: " + hours + "h "
             + minutes + "m " + seconds + "s ";
 
-            //$('.submit_result').prop('disabled', true);
+            $('.submit_result').prop('disabled', true);
             // If the count down is finished, write some text
             if (distance < 0) {
                 clearInterval(x);
@@ -98,8 +98,10 @@
                     <div class="level-item">
 						<a href=""><img class="image is-64x64" src="{{ url_for('static', filename='HoE.png') }}"0.9.1/css/bulma.min.css> </a>
 					</div>
+                
                     <div class="level-item">
-			    <p > <strong class="has-text-white">{{ team_name }}</strong></p>
+			            <p > <strong class="has-text-white">{{ team_name }}</strong><br><strong class="has-text-white">{{ username }}</strong></p>
+                
 					</div>
 				</div>
 			</div>
@@ -171,7 +173,7 @@
                     </tbody>
                 </table>
 
-                <h1 class="title is-2"> Your Submissions </h1>
+                <h1 class="title is-2"> Team {{ team_name }} Submissions </h1>
                 Track all your submissions to see how you're progressing!
             <div class="level">
                 <!-- Left side -->

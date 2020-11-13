@@ -1,6 +1,7 @@
 from flask import Flask, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
+from flask_login import LoginManager
 import pymysql
 import datetime
 from os.path import join, dirname, realpath
@@ -15,14 +16,22 @@ def create_app():
 
     # initilise plugins
     db.init_app(app)
-    jwt.init_app(app)
+    # jwt.init_app(app)
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth_bp.login'
+    login_manager.init_app(app)
 
-    
+    from .models import User
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
     with app.app_context():
         # import parts of our application
-        from . import token, submission
+        from . import auth, submission
 
-        app.register_blueprint(token.token_bp)
+        app.register_blueprint(auth.auth_bp)
         app.register_blueprint(submission.submission_bp)
 
         return app

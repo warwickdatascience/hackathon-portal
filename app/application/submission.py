@@ -1,6 +1,9 @@
+from flask_login import login_required, current_user
 from flask import Blueprint, request, render_template, redirect
 from flask import current_app as app
+
 from flask_jwt_extended import jwt_optional, get_jwt_identity
+from flask_login import login_required, current_user
 from sqlalchemy import desc, func
 from werkzeug.utils import secure_filename
 from .models import Submission, User, UserTeam, Team
@@ -14,23 +17,24 @@ submission_bp = Blueprint("submission_bp", __name__)
 # root POST request for now
 
 def get_scores():
-    scores = db.session.query(Submission.team_id, func.max(Submission.score)).group_by(Submission.team_id).all()
+    scores = db.session.query(Submission.team_id, func.max(Submission.score)).group_by(Submission.team_id).order_by(func.max(Submission.score).desc()).all()
 
     # can't be asked to look up SQLAlchemy joins
     scores_names = list()
     for (teamid, score) in scores:
         scores_names.append((Team.query.filter_by(team_id=teamid).first().teamname, score))
 
-    return sorted(scores_names, key=lambda x : x[1], reverse=True)
+    return sorted(scores_names, key=lambda x : x[1])
 
 @submission_bp.route("/", methods=["GET", "POST"])
-@jwt_optional
+@login_required
 def index():
-    username = get_jwt_identity()
-    # username is None if not logged in
-    # redirect if this is the case
-    if username is None:
-        return redirect("/login")
+    username=current_user.username
+    # username = get_jwt_identity()
+    # # username is None if not logged in
+    # # redirect if this is the case
+    # if username is None:
+    #     return redirect("/login")
     user_id = User.query.filter_by(username=username).first().user_id
     team_id = UserTeam.query.filter_by(user_id=user_id).first().team_id
     team_name = Team.query.filter_by(team_id=team_id).first().teamname
@@ -76,6 +80,7 @@ def index():
             submissions = db.session.query(Submission.score, Submission.tag).filter_by(team_id=team_id).all()
 
             return render_template("portal.html",
+                username=username,
                 team_name=team_name,
                 scores=scores,submissions=submissions,sub_length=len(submissions),
                 year=d.year, month=d.month-1, day=d.day, hour=d.hour, minute=d.minute,
@@ -84,6 +89,7 @@ def index():
 
 
         return render_template("portal.html",
+                username=username,
                 team_name=team_name,
                 scores=scores,submissions=submissions,sub_length=len(submissions),
                 year=d.year, month=d.month-1, day=d.day, hour=d.hour, minute=d.minute,
@@ -96,6 +102,7 @@ def index():
     submissions = db.session.query(Submission.score, Submission.tag).filter_by(team_id=team_id).all()
 
     return render_template("portal.html",
+            username=username,
             team_name=team_name,
             scores=scores,submissions=submissions,sub_length=len(submissions),
             year=d.year, month=d.month-1, day=d.day, hour=d.hour, minute=d.minute,

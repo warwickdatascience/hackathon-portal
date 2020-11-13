@@ -34,4 +34,4 @@ def evaluate_score(filename, ml_filename):
         rmse += (float(truth[i]) - float(user[i])) ** 2 
     rmse = rmse / len(truth)
     rmse = rmse ** .5
-    return rmse
+    return (1-rmse) * 100

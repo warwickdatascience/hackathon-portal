@@ -1,18 +1,18 @@
-from flask import Blueprint, request, render_template, jsonify, redirect, make_response
+from flask import Blueprint, request, render_template, jsonify, redirect, make_response, url_for
 from flask import current_app as app
+from flask_login import login_user
 from .models import User 
 from . import jwt
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_refresh_token_required, set_access_cookies, set_refresh_cookies, get_jwt_identity
 import hashlib
 
 # blueprint configuration
-token_bp = Blueprint("token_bp", __name__)
+auth_bp = Blueprint("auth_bp", __name__)
 
-@token_bp.route('/login', methods=['GET', 'POST'])
+@auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
-        print(f'PASSWORD: {request.form["password"]}')
         # get username and password from database
         user = User.query.filter_by(username=request.form['username']).first()
         if user is None:
@@ -34,30 +34,7 @@ def login():
             if request.form['username'] != username or key != password:
                 error = f'Invalid Credentials. Please try again.'
             else:
-                dictToSend = {
-                    'username': request.form['username'],
-                    'password': request.form['password']
-                }
-                access_token = create_access_token(identity=dictToSend['username'])
-                refresh_token = create_refresh_token(
-                    identity=dictToSend['username'])
-                # Set the JWT cookies in the response
-                resp = make_response(redirect("/"))
-                set_access_cookies(resp, access_token)
-                set_refresh_cookies(resp, refresh_token)
-                return resp
+                login_user(user, remember=True)
+                return redirect(url_for('submission_bp.index'))
     return render_template('login.html', error=error)
-
-
-@token_bp.route('/token/refresh', methods=['POST'])
-@jwt_refresh_token_required
-def refresh():
-    # Create the new access token
-    current_user = get_jwt_identity()
-    access_token = create_access_token(identity=current_user)
-
-    # Set the JWT access cookie in the response
-    resp = jsonify({'refresh': True})
-    set_access_cookies(resp, access_token)
-    return resp, 200
 

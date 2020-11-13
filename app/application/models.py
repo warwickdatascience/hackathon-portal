@@ -1,3 +1,4 @@
+from flask_login import UserMixin
 from . import db
 
 class Admin(db.Model):
@@ -7,12 +8,14 @@ class Admin(db.Model):
     password = db.Column(db.BLOB)
     salt = db.Column(db.BLOB)
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = "user"
     user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String)
     password = db.Column(db.BLOB)
     salt = db.Column(db.BLOB)
+    def get_id(self):
+        return (self.user_id)
 
 class Team(db.Model):
     __tablename__ = "team"
