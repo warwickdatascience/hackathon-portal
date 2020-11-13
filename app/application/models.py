@@ -31,7 +31,7 @@ class Submission(db.Model):
     team_id =  db.Column(db.Integer, db.ForeignKey("team.team_id"))
     user_id =  db.Column(db.Integer, db.ForeignKey("user.user_id"))
     upload_time = db.Column(db.DateTime)
-    score = db.Column(db.Integer)
+    score = db.Column(db.Float)
     tag = db.Column(db.String)
 
 

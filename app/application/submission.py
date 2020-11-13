@@ -66,7 +66,7 @@ def index():
                 jupyter_file.save(os.path.join(app.config["UPLOAD_FOLDER"], f"{new_submission.submission_id}.ipynb"))
 
                 # call the score function
-                new_submission.score = evaluate_score(os.path.join(app.config["UPLOAD_FOLDER"], f"{new_submission.submission_id}.csv"))
+                new_submission.score = evaluate_score(os.path.join(app.config["UPLOAD_FOLDER"], f"{new_submission.submission_id}.csv"), os.path.join(app.config["ML_FOLDER"], "gt.csv"))
 
                 db.session.add(new_submission)
                 db.session.commit()

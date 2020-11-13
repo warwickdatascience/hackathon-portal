@@ -52,7 +52,7 @@ mycursor.execute(
 mycursor.execute(
     "CREATE TABLE userteam(userteam_id INT PRIMARY KEY AUTO_INCREMENT, team_id INT, user_id INT, FOREIGN KEY(team_id) REFERENCES team(team_id), FOREIGN KEY(user_id) REFERENCES user(user_id))")
 mycursor.execute(
-    "CREATE TABLE submission(submission_id INT PRIMARY KEY AUTO_INCREMENT, upload_time DATETIME, team_id INT, user_id INT, score INT, tag VARCHAR(100), FOREIGN KEY(team_id) REFERENCES team(team_id), FOREIGN KEY(user_id) REFERENCES user(user_id))")
+    "CREATE TABLE submission(submission_id INT PRIMARY KEY AUTO_INCREMENT, upload_time DATETIME, team_id INT, user_id INT, score FLOAT, tag VARCHAR(100), FOREIGN KEY(team_id) REFERENCES team(team_id), FOREIGN KEY(user_id) REFERENCES user(user_id))")
 mycursor.execute("SHOW TABLES")
 
 for x in mycursor:

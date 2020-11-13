@@ -1,17 +1,18 @@
 import random
 
 import os
-def evaluate_score(filename):
+def evaluate_score(filename, ml_filename):
     import csv
     truth = {}
     user = {}
     
     print(os.listdir('.'))
-    with open('gt.csv') as csv_file:
+    with open(ml_filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
             if line_count == 0:
+                line_count += 1
                 continue
             else:
                 truth[row[0]] = row[3]
@@ -21,6 +22,7 @@ def evaluate_score(filename):
         line_count = 0
         for row in csv_reader:
             if line_count == 0:
+                line_count += 1
                 continue
             else:
                 if row[0] in truth.keys():

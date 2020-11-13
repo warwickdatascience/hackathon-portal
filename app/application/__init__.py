@@ -13,8 +13,6 @@ def create_app():
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object("config.Config")
 
-    UPLOADS_PATH = join(dirname(realpath(__file__)), 'static/uploads/')
-    app.config['UPLOAD_FOLDER'] = UPLOADS_PATH
     # initilise plugins
     db.init_app(app)
     jwt.init_app(app)

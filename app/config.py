@@ -15,5 +15,6 @@ class Config:
 
     UPLOAD_FOLDER = "uploads"
     MAX_CONTENT_LENGTH = 1 * 1024 * 1024
+    ML_FOLDER = "ml"
 
     SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://root:{os.getenv('SQL_ROOT_PASSWORD')}@db:3306/hackathon_portal"
