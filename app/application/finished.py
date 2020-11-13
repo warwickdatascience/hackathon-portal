@@ -33,8 +33,8 @@ def finished():
     # if global countdown not over 
     d = datetime.datetime.utcnow()
     end_date = datetime.datetime.strptime('Nov 15 2020 7:00PM', '%b %d %Y %I:%M%p')
-    # if d < end_date:
-    #     return redirect("/")
+    if d < end_date:
+        return redirect("/")
     user_id = User.query.filter_by(username=current_user.username).first().user_id
     team_id = UserTeam.query.filter_by(user_id=user_id).first().team_id
     team_name = Team.query.filter_by(team_id=team_id).first().teamname
