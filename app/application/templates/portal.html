@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="icon" href="{{ url_for('static', filename='logo-round.png') }}">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Submission Portal</title>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
+         <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+        
+	</head>
+	<body style="background-color:#ffffc">
+    <script>
+        $(document).ready(function(){
+
+	const myDate = new Date({{ year }}, {{ month }}, {{ day }}, 
+			    {{ hour }}, {{ minute }}, {{ second }}, 0);
+        myDate.setHours( myDate.getHours() + 1 );
+        
+
+        var cdown = myDate.getTime();
+        var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = cdown - now;
+            if (distance < 300) {
+                $("#submission_cooldown").css("color", "green");
+            }
+            // Time calculations for days, hours, minutes and seconds
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("submission_cooldown").innerHTML = "Submission Cooldown: " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+            $('.submit_result').prop('disabled', true);
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("submission_cooldown").innerHTML = "Ready to submit!";
+                $('.submit_result').prop('disabled', false);
+            }
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = cdown - now;
+            if (distance < 300) {
+                $("#submission_cooldown").css("color", "green");
+            }
+            // Time calculations for days, hours, minutes and seconds
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("submission_cooldown").innerHTML = "Submission Cooldown: " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+            $('.submit_result').prop('disabled', true);
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("submission_cooldown").innerHTML = "Ready to submit!";
+                $('.submit_result').prop('disabled', false);
+            }
+        }, 1000);
+        });
+
+
+    </script>
+   <section  class="banner hero  p-3">
+		<div   class="header">
+			
+			<div class="level">
+				<div class="level-left">
+					<div class="level-item">
+						<h1 class="title is-1 is-size-3-mobile has-text-white"> <a class="has-text-white"> Helping Hack: Heart of England </a></h1>
+					</div>
+				</div>
+				<div class="level-right  is-hidden-mobile ">
+					<div class="level-item">
+						<a href="https://www.wdss.io"><img class="image is-64x64" src="{{ url_for('static', filename='logo-transparent-white.png') }}"0.9.1/css/bulma.min.css> </a>
+					</div>
+					<div class="level-item">
+						<a href="https://www.warwicksu.com/societies-sports/societies/Psychology/"><img width="100vh" class="image" src="{{ url_for('static', filename='cropped-WSS-White-Trans-1.png') }}"0.9.1/css/bulma.min.css> </a>
+					</div>
+                    <div class="level-item">
+						<a href=""><img class="image is-64x64" src="{{ url_for('static', filename='HoE.png') }}"0.9.1/css/bulma.min.css> </a>
+					</div>
+                
+                    <div class="level-item">
+			            <p > <strong class="has-text-white">{{ team_name }}</strong><br><strong class="has-text-white">{{ username }}</strong></p>
+                
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+	  <div class="columns is-fullheight">
+        <div class="column  is-9 ">
+            
+            <section class="section">
+            
+            <div class="container">  
+                <div class="columns">
+                    <div class="column">
+                            <h1 class="title is-4" id="countdown"></h1>
+                        
+                    </div>
+                    <div class="column">
+                    <h1 class="title is-4" id="submission_cooldown"></h1>
+                        
+                    </div>
+                    
+                </div> 
+                
+                
+                
+                <h1 class="title is-2"> Competition Leaderboard </h1>
+                See how you're fairing against everyone else!
+                
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th> Ranking </th>
+
+                            <th> Team </th>
+                            
+                            <th> RMSE </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in range(scores|length) %}
+                        {% if team_name == scores[i][0] %}
+                        <tr>
+                            <td> <strong> {{ i+1 }} </strong> </td>
+                            <td> <strong> {{ scores[i][0] }} </strong> </td>
+                            <td> <strong> {{ '%0.5f'| format(scores[i][1]|float) }} </strong> </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td>  {{ i + 1 }} </td>
+                            <td> {{ scores[i][0] }} </td>
+                            <td> {{ '%0.5f'| format(scores[i][1]|float) }} </td>
+                        </tr>
+                        {% endif %}
+
+                    {% endfor %}
+                    
+                    </tbody>
+                </table>
+
+                <h1 class="title is-2"> Team {{ team_name }} Submissions </h1>
+                Track all your submissions to see how you're progressing!
+            <div class="level">
+                <!-- Left side -->
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th> Submission No. </th>
+
+                            <th> RMSE </th>
+
+                            <th> Tag </th>
+
+                            <th> Submitted By </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in range(sub_length) %}
+                        <tr>
+                            <td> {{ i+1 }} </td>
+                            <td> {{ '%0.5f'| format(submissions[i][0]|float) }} </td>
+                            <td> {{ submissions[i][1] }} </td>
+                            <td> {{ submissions[i][2] }} </td>
+                        </tr>
+                        
+                    {% endfor %}
+                     
+                    </tbody>
+                </table>
+            </div>
+                   </section>
+        </div>
+        
+        <div style=" z-index:1" class="column  is-3 " >
+            <div  class="card" >
+            <section class="section" >
+            <div class="container ">    
+                    
+                <h1 class="title is-2"> Submit </h1>
+                <p> Use this application to submit your predictions for the machine learning competition as part 
+                    of WDSS/WSS's Helping Hack. 
+                </p><br>
+                <p> Your best submission will be used for the score on the leaderboard but
+                 the final winning submission will be determined using a resampling procedure. 
+                 For that reason don't rely to heavily on just the leaderboard, instead create 
+                 a model that performs well under cross-validation. Happy hacking!
+ 
+                </p><br>
+                <p> 
+                    For more details see: <a href="https://warwickdatascience.github.io/helping-hack"> https://warwickdatascience.github.io/helping-hack </a>
+                </p><br>
+                <p> Submission Rules: </p>
+                <dl class="pl-6">
+                    <li> You may only submit one solution per hour </li>
+                    <li> You must include the Jupyter notebook that produced your submission </li>
+                    <li> Your model must only depend on the data provided by WDSS/WSS </li>
+                </dl>
+                
+            <hr>
+                <form action="/" method="post" enctype="multipart/form-data">
+                    <label> Answer (.csv) </label>
+                    <input type="file" id="answers" name="cFile">
+                    <br><br>
+                    <label> Jupyter Notebook </label>
+                    <input type="file" id="notebook" name="jFile">
+                    <br><br>
+                    <label> Tag </label>
+                    <input type="input" placeholder="Short Desc e.g. Linear Regression w/ SGD" class="input" name="tag">
+                    <br><br>
+                    <div class="has-text-centered">
+                    <input style="background-color:#103c6b" class="submit_result button is-primary" value="Submit" type="submit">
+                    </div>
+                </form> 
+                {% if submission_status is defined %}
+                    {{ submission_status }}
+                {% endif %}
+            </section>
+            </div>
+        </div>
+      </div>
+      
+    
+
+
+	</body>
+</html>
+		
+
