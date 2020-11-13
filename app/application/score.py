@@ -1,11 +1,35 @@
 import random
-import pandas as pd
 
-
+import os
 def evaluate_score(filename):
-    ground_truth = pd.read_csv("static/gt.csv")
-    user = pd.read_csv(filename)
-    x = user.join(ground_truth, how="right", lsuffix="lad_code", rsuffix="lad_code")
-    a = x["imd_2019lad_code"]
-    rmse = ((a.iloc[:,0] - a.iloc[:,1]) ** 2).mean() ** .5
-    return (1-rmse)*100
+    import csv
+    truth = {}
+    user = {}
+    
+    print(os.listdir('.'))
+    with open('gt.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count == 0:
+                continue
+            else:
+                truth[row[0]] = row[3]
+                
+    with open(filename) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count == 0:
+                continue
+            else:
+                if row[0] in truth.keys():
+                    user[row[0]] = row[3]
+    
+
+    rmse = 0
+    for i in truth.keys():
+        rmse += (float(truth[i]) - float(user[i])) ** 2 
+    rmse = rmse / len(truth)
+    rmse = rmse ** .5
+    return rmse
