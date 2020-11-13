@@ -44,7 +44,7 @@
             // If the count down is finished, write some text
             if (distance < 0) {
                 clearInterval(x);
-                document.getElementById("submission_cooldown").innerHTML = "Submission Cooldown: " + "Ready to submit!";
+                document.getElementById("submission_cooldown").innerHTML = "Ready to submit!";
                 $('.submit_result').prop('disabled', false);
             }
         // Update the count down every 1 second
@@ -71,7 +71,7 @@
             // If the count down is finished, write some text
             if (distance < 0) {
                 clearInterval(x);
-                document.getElementById("submission_cooldown").innerHTML = "Submission Cooldown: " + "Ready to submit!";
+                document.getElementById("submission_cooldown").innerHTML = "Ready to submit!";
                 $('.submit_result').prop('disabled', false);
             }
         }, 1000);
@@ -112,20 +112,19 @@
             
             <section class="section">
             
-            <div class="container">   
-                <div class="level">
-				<div class="level-left">
-					<div class="level-item">
-						<h1 class="title is-4" id="countdown"></h1>
-					</div>
-				</div>
-				<div class="level-right  ">
-					
-					<div class="level-item">
-						<h1 class="title is-4" id="submission_cooldown"></h1>
-					</div>
-                </div>
-				</div>
+            <div class="container">  
+                <div class="columns">
+                    <div class="column">
+                            <h1 class="title is-4" id="countdown"></h1>
+                        
+                    </div>
+                    <div class="column">
+                    <h1 class="title is-4" id="submission_cooldown"></h1>
+                        
+                    </div>
+                    
+                </div> 
+                
                 
                 
                 <h1 class="title is-2"> Competition Leaderboard </h1>
@@ -138,7 +137,7 @@
 
                             <th> Team </th>
                             
-                            <th> Score </th>
+                            <th> RMSE </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -147,37 +146,18 @@
                         <tr>
                             <td> <strong> {{ i+1 }} </strong> </td>
                             <td> <strong> {{ scores[i][0] }} </strong> </td>
-                            <td> <strong> {{ '%0.2f'| format(scores[i][1]|float) }} </strong> </td>
+                            <td> <strong> {{ '%0.5f'| format(scores[i][1]|float) }} </strong> </td>
                         </tr>
                         {% else %}
                         <tr>
-                            <td> <strong> {{ i }} </strong> </td>
+                            <td>  {{ i + 1 }} </td>
                             <td> {{ scores[i][0] }} </td>
-                            <td> {{ '%0.2f'| format(scores[i][1]|float) }} </td>
+                            <td> {{ '%0.5f'| format(scores[i][1]|float) }} </td>
                         </tr>
                         {% endif %}
 
                     {% endfor %}
-                        <tr>
-                            <td> x </td>
-                            <td> WDSS </td>
-                            <td> 100 </td>
-                        </tr>
-                        <tr>
-                            <td> y </td>
-                            <td> WSS </td>
-                            <td> 100 </td>
-                        </tr>
-                        <tr>
-                            <td> z </td>
-                            <td> HoE </td>
-                            <td> 100 </td>
-                        </tr>
-                        <tr>
-                            <td> t </td>
-                            <td> Profl </td>
-                            <td> 100 </td>
-                        </tr>
+                    
                     </tbody>
                 </table>
 
@@ -190,7 +170,7 @@
                         <tr>
                             <th> Submission No. </th>
 
-                            <th> Score </th>
+                            <th> RMSE </th>
 
                             <th> Tag </th>
 
@@ -201,7 +181,7 @@
                     {% for i in range(sub_length) %}
                         <tr>
                             <td> {{ i+1 }} </td>
-                            <td> {{ '%0.2f'| format(submissions[i][0]|float) }} </td>
+                            <td> {{ '%0.5f'| format(submissions[i][0]|float) }} </td>
                             <td> {{ submissions[i][1] }} </td>
                             <td> {{ submissions[i][2] }} </td>
                         </tr>

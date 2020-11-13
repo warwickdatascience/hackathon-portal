@@ -3,7 +3,7 @@ import os
 import sys
 import hashlib
 from dotenv import load_dotenv
-
+import datetime
 load_dotenv()
 
 choice = input("WARNING: WILL OVERWRITE ANY SAVED DATA ARE YOU SURE YOU WANT TO RUN? [y/n]")
@@ -74,7 +74,13 @@ def create_user(username, password):
     mycursor.execute(sql, val)
 create_user('test', 'root')
 create_user('john', 'root')
-mycursor.execute("INSERT INTO team (teamname) VALUES ('WDSS Testers')")
+mycursor.execute("INSERT INTO team (teamname) VALUES ('Null Model')")
+mycursor.execute("INSERT INTO team (teamname) VALUES ('Baseline Model')")
 mycursor.execute("INSERT INTO userteam (team_id, user_id) VALUES (1,1)")
-mycursor.execute("INSERT INTO userteam (team_id, user_id) VALUES (1,2)")
+mycursor.execute("INSERT INTO userteam (team_id, user_id) VALUES (2,2)")
+now = datetime.datetime(2009,5,5)
+str_now = now.date().isoformat()
+mycursor.execute("INSERT INTO submission (upload_time, team_id, user_id, score, tag) VALUES ('2020-11-13 12:00:00', 1, 1, 0.0219, 'demo')")
+mycursor.execute("INSERT INTO submission (upload_time, team_id, user_id, score, tag) VALUES ('2020-11-13 12:00:00', 2, 2, 0.0269, 'demo')")
+
 mydb.commit()

@@ -17,7 +17,7 @@ submission_bp = Blueprint("submission_bp", __name__)
 # root POST request for now
 
 def get_scores():
-    scores = db.session.query(Submission.team_id, func.max(Submission.score)).group_by(Submission.team_id).order_by(func.max(Submission.score).desc()).all()
+    scores = db.session.query(Submission.team_id, func.min(Submission.score)).group_by(Submission.team_id).all()
 
     # can't be asked to look up SQLAlchemy joins
     scores_names = list()
@@ -67,15 +67,30 @@ def index():
                 # get the id to give them
                 new_submission = Submission(team_id=team_id, user_id = user_id, upload_time=datetime.datetime.utcnow(), tag=request.form["tag"])
 
-                db.session.add(new_submission)
-                db.session.flush()
+                
 
                 csv_file.save(os.path.join(app.config["UPLOAD_FOLDER"], f"{new_submission.submission_id}.csv"))
                 jupyter_file.save(os.path.join(app.config["UPLOAD_FOLDER"], f"{new_submission.submission_id}.ipynb"))
-
+                eval_score = evaluate_score(os.path.join(app.config["UPLOAD_FOLDER"], f"{new_submission.submission_id}.csv"), os.path.join(app.config["ML_FOLDER"], "gt.csv"))
                 # call the score function
-                new_submission.score = evaluate_score(os.path.join(app.config["UPLOAD_FOLDER"], f"{new_submission.submission_id}.csv"), os.path.join(app.config["ML_FOLDER"], "gt.csv"))
-
+                if eval_score == 2147483647:
+                    scores = get_scores()
+                    submissions = db.session.query(Submission.score, Submission.tag, Submission.user_id).filter_by(team_id=team_id).all()
+                    subs = []
+                    for submission in submissions:
+                        user_submission = db.session.query(User.username).filter_by(user_id=submission[2]).first()
+                        subs.append([submission[0], submission[1], user_submission[0]])
+                    return render_template("portal.html",
+                        username=username,
+                        team_name=team_name,
+                        scores=scores,submissions=subs,sub_length=len(submissions),
+                        year=d.year, month=d.month-1, day=d.day, hour=d.hour, minute=d.minute,
+                        second=d.second,
+                        submission_status="Submission Error: Invalid .csv file submitted")
+                db.session.add(new_submission)
+                db.session.flush()
+                new_submission.score = eval_score
+                
                 db.session.add(new_submission)
                 db.session.commit()
                 return redirect("/")
