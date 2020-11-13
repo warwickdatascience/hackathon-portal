@@ -59,20 +59,22 @@ for x in mycursor:
     print(x)
 
 # USERS
-sql = "INSERT INTO user (username, password, salt) VALUES (%s, %s, %s)"
-password = "root"
-salt = os.urandom(32)
-print(salt)
-key = hashlib.pbkdf2_hmac(
-    'sha256',  # The hash digest algorithm for HMAC
-    password.encode('utf-8'),  # Convert the password to bytes
-    salt,  # Provide the salt
-    100000  # It is recommended to use at least 100,000 iterations of SHA-256
-)
-# print(key.decode('utf-8'))
-val = ("test", key, salt)
-mycursor.execute(sql, val)
-
+def create_user(username, password):
+    sql = "INSERT INTO user (username, password, salt) VALUES (%s, %s, %s)"
+    salt = os.urandom(32)
+    print(salt)
+    key = hashlib.pbkdf2_hmac(
+        'sha256',  # The hash digest algorithm for HMAC
+        password.encode('utf-8'),  # Convert the password to bytes
+        salt,  # Provide the salt
+        100000  # It is recommended to use at least 100,000 iterations of SHA-256
+    )
+    # print(key.decode('utf-8'))
+    val = (username, key, salt)
+    mycursor.execute(sql, val)
+create_user('test', 'root')
+create_user('john', 'root')
 mycursor.execute("INSERT INTO team (teamname) VALUES ('WDSS Testers')")
 mycursor.execute("INSERT INTO userteam (team_id, user_id) VALUES (1,1)")
+mycursor.execute("INSERT INTO userteam (team_id, user_id) VALUES (1,2)")
 mydb.commit()
