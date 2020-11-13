@@ -29,6 +29,10 @@ def get_scores():
 @submission_bp.route("/", methods=["GET", "POST"])
 @login_required
 def index():
+    d = datetime.datetime.utcnow()
+    end_date = datetime.datetime.strptime('Nov 15 2020 7:00PM', '%b %d %Y %I:%M%p')
+    if d >= end_date:
+        return redirect("/thankyou")
     username=current_user.username
     # username = get_jwt_identity()
     # # username is None if not logged in
@@ -77,12 +81,15 @@ def index():
                 return redirect("/")
 
             scores = get_scores()
-            submissions = db.session.query(Submission.score, Submission.tag).filter_by(team_id=team_id).all()
-
+            submissions = db.session.query(Submission.score, Submission.tag, Submission.user_id).filter_by(team_id=team_id).all()
+            subs = []
+            for submission in submissions:
+                user_submission = db.session.query(User.username).filter_by(user_id=submission[2]).first()
+                subs.append([submission[0], submission[1], user_submission[0]])
             return render_template("portal.html",
                 username=username,
                 team_name=team_name,
-                scores=scores,submissions=submissions,sub_length=len(submissions),
+                scores=scores,submissions=subs,sub_length=len(submissions),
                 year=d.year, month=d.month-1, day=d.day, hour=d.hour, minute=d.minute,
                 second=d.second,
                 submission_status="Submission Error: Bad file extensions used")
@@ -99,12 +106,16 @@ def index():
     # get the team ID and max score
     scores = get_scores()
 
-    submissions = db.session.query(Submission.score, Submission.tag).filter_by(team_id=team_id).all()
+    submissions = db.session.query(Submission.score, Submission.tag, Submission.user_id).filter_by(team_id=team_id).all()
+    subs = []
+    for submission in submissions:
+        user_submission = db.session.query(User.username).filter_by(user_id=submission[2]).first()
+        subs.append([submission[0], submission[1], user_submission[0]])
 
     return render_template("portal.html",
             username=username,
             team_name=team_name,
-            scores=scores,submissions=submissions,sub_length=len(submissions),
+            scores=scores,submissions=subs,sub_length=len(submissions),
             year=d.year, month=d.month-1, day=d.day, hour=d.hour, minute=d.minute,
             second=d.second,
             )

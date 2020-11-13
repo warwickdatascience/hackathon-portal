@@ -29,9 +29,10 @@ def create_app():
 
     with app.app_context():
         # import parts of our application
-        from . import auth, submission
+        from . import auth, submission, finished
 
         app.register_blueprint(auth.auth_bp)
         app.register_blueprint(submission.submission_bp)
+        app.register_blueprint(finished.finished_bp)
 
         return app

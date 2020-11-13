@@ -1,0 +1,130 @@
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="icon" href="{{ url_for('static', filename='logo-round.png') }}">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Submission Portal</title>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
+         <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+        
+	</head>
+	<body style="background-color:#ffffc">
+
+   <section  class="banner hero  p-3">
+		<div   class="header">
+			
+			<div class="level">
+				<div class="level-left">
+					<div class="level-item">
+						<h1 class="title is-1 is-size-3-mobile has-text-white"> <a class="has-text-white"> Helping Hack: Heart of England </a></h1>
+					</div>
+				</div>
+				<div class="level-right  is-hidden-mobile ">
+					<div class="level-item">
+						<a href="https://www.wdss.io"><img class="image is-64x64" src="{{ url_for('static', filename='logo-transparent-white.png') }}"0.9.1/css/bulma.min.css> </a>
+					</div>
+					<div class="level-item">
+						<a href="https://www.warwicksu.com/societies-sports/societies/Psychology/"><img width="100vh" class="image" src="{{ url_for('static', filename='cropped-WSS-White-Trans-1.png') }}"0.9.1/css/bulma.min.css> </a>
+					</div>
+                    <div class="level-item">
+						<a href=""><img class="image is-64x64" src="{{ url_for('static', filename='HoE.png') }}"0.9.1/css/bulma.min.css> </a>
+					</div>
+                
+                    <div class="level-item">
+			            <p > <strong class="has-text-white">{{ team_name }}</strong><br><strong class="has-text-white">{{ username }}</strong></p>
+                
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+	  <div class="columns is-fullheight">
+        <div class="column  is-12 ">
+            
+            <section class="section">
+            
+            <div class="container">   
+                <div class="container has-text-centered">   
+                <h1 class="title is-1"> Thank You For Participating! </h1>
+                </div>
+                <br>
+                <h1 class="title is-2"> Final Results </h1>
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th> Ranking </th>
+
+                            <th> Team </th>
+                            
+                            <th> Score </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in range(scores|length) %}
+                        {% if team_name == scores[i][0] %}
+                        <tr>
+                            <td> <strong> {{ i+1 }} </strong> </td>
+                            <td> <strong> {{ scores[i][0] }} </strong> </td>
+                            <td> <strong> {{ '%0.2f'| format(scores[i][1]|float) }} </strong> </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td> {{ i }} </td>
+                            <td> {{ scores[i][0] }} </td>
+                            <td> {{ '%0.2f'| format(scores[i][1]|float) }} </td>
+                        </tr>
+                        {% endif %}
+
+                    {% endfor %}
+                        <tr>
+                            <td> x </td>
+                            <td> WDSS </td>
+                            <td> 100 </td>
+                        </tr>
+                        <tr>
+                            <td> y </td>
+                            <td> WSS </td>
+                            <td> 100 </td>
+                        </tr>
+                        <tr>
+                            <td> z </td>
+                            <td> HoE </td>
+                            <td> 100 </td>
+                        </tr>
+                        <tr>
+                            <td> t </td>
+                            <td> Profl </td>
+                            <td> 100 </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+               
+            </section>
+            <section class="section">
+              <div class="container">   
+                <h1 class="title is-3"> Find us at: </h1>
+                WDSS: <a href="https://www.wdss.io"> wdss.io </a>
+                <br>
+                WSS: <a href="http://warwickstatisticssociety.co.uk/"> warwickstatisticssociety.co.uk </a>
+                <br>
+                HoE: <a href="https://www.heartofenglandcf.co.uk/"> heartofenglandcf.co.uk </a>
+              </div>
+            </section>
+            </div>
+        </div>
+      </div>
+      
+    
+
+
+	</body>
+</html>
+		
+

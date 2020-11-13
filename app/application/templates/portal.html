@@ -134,39 +134,47 @@
                 <table class="table is-fullwidth">
                     <thead>
                         <tr>
+                            <th> Ranking </th>
+
                             <th> Team </th>
                             
                             <th> Score </th>
                         </tr>
                     </thead>
                     <tbody>
-                    {% for (team, score) in scores %}
-                        {% if team_name == team %}
+                    {% for i in range(scores|length) %}
+                        {% if team_name == scores[i][0] %}
                         <tr>
-                            <td> <strong> {{ team }} </strong> </td>
-                            <td> <strong> {{ score }} </strong> </td>
+                            <td> <strong> {{ i+1 }} </strong> </td>
+                            <td> <strong> {{ scores[i][0] }} </strong> </td>
+                            <td> <strong> {{ '%0.2f'| format(scores[i][1]|float) }} </strong> </td>
                         </tr>
                         {% else %}
                         <tr>
-                            <td> {{ team }} </td>
-                            <td> {{ score }} </td>
+                            <td> <strong> {{ i }} </strong> </td>
+                            <td> {{ scores[i][0] }} </td>
+                            <td> {{ '%0.2f'| format(scores[i][1]|float) }} </td>
                         </tr>
                         {% endif %}
 
                     {% endfor %}
                         <tr>
+                            <td> x </td>
                             <td> WDSS </td>
                             <td> 100 </td>
                         </tr>
                         <tr>
+                            <td> y </td>
                             <td> WSS </td>
                             <td> 100 </td>
                         </tr>
                         <tr>
+                            <td> z </td>
                             <td> HoE </td>
                             <td> 100 </td>
                         </tr>
                         <tr>
+                            <td> t </td>
                             <td> Profl </td>
                             <td> 100 </td>
                         </tr>
@@ -181,18 +189,21 @@
                     <thead>
                         <tr>
                             <th> Submission No. </th>
-                            
+
                             <th> Score </th>
 
                             <th> Tag </th>
+
+                            <th> Submitted By </th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for i in range(sub_length) %}
                         <tr>
-                            <td> {{ i }} </td>
-                            <td> {{ submissions[i][0] }} </td>
+                            <td> {{ i+1 }} </td>
+                            <td> {{ '%0.2f'| format(submissions[i][0]|float) }} </td>
                             <td> {{ submissions[i][1] }} </td>
+                            <td> {{ submissions[i][2] }} </td>
                         </tr>
                         
                     {% endfor %}
