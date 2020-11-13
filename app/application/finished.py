@@ -14,7 +14,7 @@ import os
 
 
 def get_scores():
-    scores = db.session.query(Submission.team_id, func.max(Submission.score)).group_by(Submission.team_id).order_by(func.max(Submission.score).desc()).all()
+    scores = db.session.query(Submission.team_id, func.min(Submission.score)).group_by(Submission.team_id).all()
 
     # can't be asked to look up SQLAlchemy joins
     scores_names = list()
@@ -33,8 +33,8 @@ def finished():
     # if global countdown not over 
     d = datetime.datetime.utcnow()
     end_date = datetime.datetime.strptime('Nov 15 2020 7:00PM', '%b %d %Y %I:%M%p')
-    if d < end_date:
-        return redirect("/")
+    # if d < end_date:
+    #     return redirect("/")
     user_id = User.query.filter_by(username=current_user.username).first().user_id
     team_id = UserTeam.query.filter_by(user_id=user_id).first().team_id
     team_name = Team.query.filter_by(team_id=team_id).first().teamname
