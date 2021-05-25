@@ -1,7 +1,7 @@
-flask
-flask-sqlalchemy
-flask-jwt-extended
-flask-login
-pymysql
-python-dotenv
-Werkzeug
+flask==2.0.1
+flask-sqlalchemy==2.5.1
+flask-jwt-extended==4.2.1
+flask-login==0.5.0
+pymysql==1.0.2
+python-dotenv==0.17.1
+Werkzeug==2.0.1
